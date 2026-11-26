@@ -11,16 +11,16 @@ Este repositório reúne tudo o que produzi em Cálculo Numérico. Ele abre com 
 
 ## Sumário
 
-1. [A obra: o potencial de ação de Hodgkin e Huxley (1952)](#1-a-obra-o-potencial-de-ação-de-hodgkin-e-huxley-1952)
-2. [Meu relato do curso](#2-meu-relato-do-curso)
+1. [A literatura selecionada: o potencial de ação de Hodgkin e Huxley (1952)](#1-a-literatura-selecionada-o-potencial-de-ação-de-hodgkin-e-huxley-1952)
+2. [Sobre o que vimos no curso](#2-sobre-o-que-vimos-no-curso)
 3. [Mapa do repositório](#3-mapa-do-repositório)
 4. [Como executar](#4-como-executar)
-5. [O que levo da disciplina](#5-o-que-levo-da-disciplina)
+5. [Definições e noções obtidas com o curso](#5-definições-e-noções-obtidas-com-o-curso)
 6. [Referências](#6-referências)
 
 ---
 
-## 1. A obra: o potencial de ação de Hodgkin e Huxley (1952)
+## 1. A literatura selecionada: o potencial de ação de Hodgkin e Huxley (1952)
 
 > A. L. Hodgkin e A. F. Huxley. **"A quantitative description of membrane current and its application to
 > conduction and excitation in nerve."** *The Journal of Physiology*, 117(4), 500–544, 1952.
@@ -48,15 +48,13 @@ Juntando tudo, temos **quatro equações diferenciais não lineares e acopladas*
 $\bar g_{Na} = 120$, $\bar g_K = 36$ e $\bar g_L = 0{,}3$ mS/cm² e $C_m = 1\ \mu$F/cm². Esse sistema
 **não tem solução analítica**. A única forma de saber se o modelo estava certo era resolver numericamente.
 
-### 1.2 O cálculo numérico por trás do Nobel
+### 1.2 O cálculo numérico envolvido
 
-Essa é a parte que me fez escolher esse artigo. Em 1951, quando as equações ficaram prontas, Huxley não
-tinha um computador à disposição: segundo o relato de Hodgkin, o EDSAC de Cambridge estava parado para
+Em 1951, quando as equações ficaram prontas, Huxley não
+tinha um computador: segundo o relato de Hodgkin, o EDSAC de Cambridge estava parado para
 modificações. Então Huxley integrou as equações **à mão, numa calculadora mecânica Brunsviga de
 manivela**. Ele usou um método de integração passo a passo publicado por D. R. Hartree em 1932, que o
-próprio artigo cita.
-
-O tamanho da tarefa impressiona:
+próprio artigo cita. Alguns números dessa tarefa:
 
 - Segundo a Physiological Society, foram **mais de um milhão de operações com 6 casas decimais**. Isso
   ajuda a explicar os três anos entre os últimos experimentos e a publicação.
@@ -75,17 +73,12 @@ Com isso ele ia **encurralando o valor correto entre um chute "baixo" e um "alto
 lógica da **bisseção** que implementei na Atividade III. O resultado foi uma velocidade de
 **18,8 m/s**, próxima dos cerca de 21 m/s medidos no experimento.
 
-### 1.3 Por que escolhi esta obra
+### 1.3 Motivo de escolha
 
 Primeiro, porque é a obra que mais tem a ver com o meu curso. Na engenharia biomédica, quase todo modelo
 de tecido excitável (neurônio, músculo cardíaco, marcapasso) é descendente direto das equações de
 Hodgkin–Huxley. Na minha iniciação científica, sobre modelagem de atividade epiléptica com integração ao
 núcleo reticular talâmico, os modelos de neurônio que estudo usam esse mesmo formalismo de condutâncias.
-
-Segundo, porque ela mostra uma coisa que eu só entendi de verdade neste semestre: **um modelo
-matemático só vira ciência quando alguém consegue calculá-lo**. Hodgkin e Huxley tinham as equações,
-mas a validação dependia de integração numérica, controle de erro e um método para encontrar um
-parâmetro desconhecido. São exatamente os temas da disciplina.
 
 ### 1.4 O que da disciplina aparece nesta obra
 
@@ -100,26 +93,22 @@ parâmetro desconhecido. São exatamente os temas da disciplina.
 
 ---
 
-## 2. Meu relato do curso
-
-Entrei em Cálculo Numérico achando que seria uma disciplina de "fazer a conta no computador". Saí
-entendendo que o trabalho de verdade é **saber quanto confiar no número que o computador devolve**.
-Abaixo conto, na ordem em que vimos, o que aprendi em cada parte.
+## 2. Sobre o que vimos no curso
 
 ### 2.1 Erros e representação numérica
 
-O curso começou com uma pergunta simples: por que `0.1 + 0.2` não dá exatamente `0.3` no Python? Para
+O curso começou com perguntas como: por que `0.1 + 0.2` não dá exatamente `0.3` no Python? Para
 responder, a gente estudou **bases numéricas** (binário, octal, hexadecimal, conversão por divisões
 sucessivas) e viu que 0,1 tem dízima infinita em base 2. O computador guarda uma aproximação, no padrão
 de **ponto flutuante**, com precisão limitada pelo *epsilon* de máquina
 ($\varepsilon \approx 2{,}2\times10^{-16}$ em `float64` e $\approx 1{,}2\times10^{-7}$ em `float32`).
 
-A partir disso aprendi a medir o erro de três formas: **absoluto** $E_a = |x - \tilde x|$, **relativo**
+A partir disso aprendemos a medir o erro de três formas: **absoluto** $E_a = |x - \tilde x|$, **relativo**
 $E_r = E_a/|x|$ e **percentual**. Também vi a diferença entre **truncar** e **arredondar** e um dos
 fenômenos que mais me marcou: a **perda de significância por cancelamento**. Subtrair dois números muito
 próximos apaga os algarismos que eles têm em comum, e o resultado fica dominado pelo erro.
 
-Na **Atividade I**, feita com o Luiz Ricardo, aplicamos tudo isso a problemas de biofluidodinâmica.
+Na **Atividade I**, feita com o Luiz Ricardo, aplicamos tudo isso aos problemas da atividade.
 Mostramos que o arredondamento sempre erra menos que o truncamento ($E_a \le 10^{-n}/2$) e que o
 truncamento é enviesado. Vimos também que,
 na lei de Hagen–Poiseuille, como $Q \propto r^4$, **um erro no raio é multiplicado por quatro na vazão**:
@@ -129,7 +118,7 @@ perdia.
 
 ### 2.2 Estabilidade numérica
 
-A **Atividade II** foi onde eu percebi que um método pode estar "certo" e mesmo assim dar uma resposta
+Na atividade 2 vimos que um método pode estar "certo" e mesmo assim dar uma resposta
 absurda. Simulamos o escoamento de Couette com **Euler explícito e diferenças finitas centrais**:
 
 $$u_i^{n+1} = u_i^n + r\,(u_{i+1}^n - 2u_i^n + u_{i-1}^n), \qquad r = \frac{\nu\,\Delta t}{\Delta y^2}$$
@@ -230,12 +219,12 @@ terceiro grau, o que o torna bem mais preciso que os trapézios para funções s
 
 | Pasta | Arquivo principal | Tema | Autoria |
 |---|---|---|---|
-| [`01-erros-numericos`](01-erros-numericos/) | `atividade-1_erros-numericos-biofluidodinamica.ipynb` | Erros e precisão | Matheus e Luiz Ricardo |
-| [`02-estabilidade-numerica`](02-estabilidade-numerica/) | `atividade-2_estabilidade-overflow-couette.ipynb` | Estabilidade e overflow | Matheus e Luiz Ricardo |
-| [`03-zeros-de-funcoes`](03-zeros-de-funcoes/) | `atividade-3_bissecao-newton-secante.ipynb` | Bisseção, Newton e secante | Matheus, Luiz Ricardo, Murilo e Vinicius |
-| [`04-sistemas-lineares`](04-sistemas-lineares/) | `lista_gauss_eliminacao-e-balanco-termico.ipynb` e `lista_gauss-seidel_resolucao.ipynb` | Gauss e Gauss–Seidel | Matheus |
-| [`05-interpolacao`](05-interpolacao/) | `tarefa-investigativa_erros-interpolacao-barra-aquecida.ipynb` | Lagrange, splines e Chebyshev | Matheus e Vinicius |
-| [`material-de-apoio`](material-de-apoio/) | `colinha-python_calculo-numerico.pdf` | Consulta rápida de Python | Matheus |
+| [`01-erros-numericos`](01-erros-numericos/) | [`atividade-1_erros-numericos-biofluidodinamica.ipynb`](01-erros-numericos/atividade-1_erros-numericos-biofluidodinamica.ipynb) | Erros e precisão | Matheus e Luiz Ricardo |
+| [`02-estabilidade-numerica`](02-estabilidade-numerica/) | [`atividade-2_estabilidade-overflow-couette.ipynb`](02-estabilidade-numerica/atividade-2_estabilidade-overflow-couette.ipynb) | Estabilidade e overflow | Matheus e Luiz Ricardo |
+| [`03-zeros-de-funcoes`](03-zeros-de-funcoes/) | [`atividade-3_bissecao-newton-secante.ipynb`](03-zeros-de-funcoes/atividade-3_bissecao-newton-secante.ipynb) | Bisseção, Newton e secante | Matheus, Luiz Ricardo, Murilo e Vinicius |
+| [`04-sistemas-lineares`](04-sistemas-lineares/) | [`lista_gauss_eliminacao-e-balanco-termico.ipynb`](04-sistemas-lineares/lista_gauss_eliminacao-e-balanco-termico.ipynb) e [`lista_gauss-seidel_resolucao.ipynb`](04-sistemas-lineares/lista_gauss-seidel_resolucao.ipynb) | Gauss e Gauss–Seidel | Matheus |
+| [`05-interpolacao`](05-interpolacao/) | [`tarefa-investigativa_erros-interpolacao-barra-aquecida.ipynb`](05-interpolacao/tarefa-investigativa_erros-interpolacao-barra-aquecida.ipynb) | Lagrange, splines e Chebyshev | Matheus e Vinicius |
+| [`material-de-apoio`](material-de-apoio/) | [`colinha-python_calculo-numerico.pdf`](material-de-apoio/colinha-python_calculo-numerico.pdf) | Consulta rápida de Python | Matheus |
 
 Cada pasta tem um `README.md` próprio, com o objetivo, a estrutura e os principais resultados do trabalho.
 
@@ -263,11 +252,9 @@ no navegador.
 
 ---
 
-## 5. O que levo da disciplina
+## 5. Definições e noções obtidas com o curso
 
-Se eu tivesse que resumir o semestre numa frase, seria: **o computador sempre devolve um número, mas
-cabe a quem programa saber se esse número significa alguma coisa.** Cada parte do curso me deu uma
-ferramenta para responder essa pergunta:
+Cada parte do curso me deu uma ferramenta para avaliar se um resultado numérico é confiável:
 
 - a análise de **erro** para saber quantos algarismos são confiáveis;
 - a análise de **estabilidade** para saber se o método está amplificando o erro;
@@ -281,15 +268,14 @@ células cardíacas. Para mim, que quero trabalhar com modelagem em engenharia b
 forma de enxergar que o cálculo numérico não é uma disciplina à parte: é o que transforma equações em
 previsões.
 
-Agradeço à Profa. Raquel Lobosco pelo material das aulas, disponível em
-[github.com/rjlobosco/unifesp](https://github.com/rjlobosco/unifesp), e aos colegas que dividiram os
-trabalhos comigo: Luiz Ricardo Pereira Salles, Vinicius Cruz Cuervo e Murilo Rodrigues Damasceno dos Santos.
-
 ---
 
 ## 6. Referências
 
-**Obra principal**
+**Declaração de uso de IA**
+Para busca extensa por artigos, organização e formatação do arquivo README, assim como consulta para elaboração de um repositório adequado no GitHub, foram feitas consultas e solicitações de complemento de código e demarcação à inteligência artificial Claude. O projeto foi guiado dentro de um ambiente em meu notebook pessoal, com atividades realizadas por mim e meus colegas ao longo da disciplina. Para melhor fluxo de legibilidade, em algumas passagens a IA também foi utilizada para reescrever e adequar a minha escrita principal à solicitação em formato de relato a respeito do curso.
+
+**Literatura selecionada**
 
 - HODGKIN, A. L.; HUXLEY, A. F. A quantitative description of membrane current and its application to
   conduction and excitation in nerve. *The Journal of Physiology*, v. 117, n. 4, p. 500–544, 1952.
